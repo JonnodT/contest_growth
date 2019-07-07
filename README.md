@@ -1,6 +1,6 @@
 # Contest Note
 
-- This repo contains some of my notes and solutions for practice programming contest problems. Problems in this repo mainly come from [luogu](http://luogu.org) and [codeforces](http://codeforces.com)
+- This repo contains my notes and solutions for some of practice programming contest problems I did. Problems in this repo mainly come from [luogu](http://luogu.org) and [codeforces](http://codeforces.com)
 
 - Since it's been a while since I started practicing. My notes are in Mandarin Chinese. Hopefully, one day I will translate them into English. 
 
