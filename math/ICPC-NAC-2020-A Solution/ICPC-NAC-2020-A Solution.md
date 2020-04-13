@@ -33,7 +33,7 @@
       * 如果n的质因子全部本质不相同，且总共有偶数个，比如 n = 15 = 3 * 5, 则mu[n] = 1
       * mu[1] = 1
     * 计算莫比乌斯函数可以用线性筛法precalculate，类似于埃式筛，这里就暂时不展开描述，感兴趣可以参考朱昶宇的linearSieve模版（<https://github.com/KCFindstr/icpc-nac-2020-solutions/blob/master/A.cpp>）总之我们可以用线性复杂度提前算好所有 mu[i]
-    * 莫比乌斯函数有一个很好的性质，即如果现在有一个不等于一的整数X, 我们枚举X的所有divisors，把这些divisors的mu值相加，一定得到0。但如果X = 1，那么由于mu[1] = 1，和为1。利用这个特殊的性质，这种“相加所有divisor的莫比乌斯函数值“得到的函数可以给我们提供一个indicator function，即下图第二行最后一个sigma，这个函数的f(d)的功能是，只有当d = 1的时候，output1，否则都output 0
+    * 莫比乌斯函数有一个很好的性质，即如果现在有一个不等于一的整数X, 我们枚举X的所有divisors，把这些divisors的mu值相加，一定得到0。但如果X = 1，那么由于mu[1] = 1，和为1。利用这个特殊的性质，这种“相加所有divisor的莫比乌斯函数值“得到的函数可以给我们提供一个indicator function，即下图第二行最后一个sigma，这个函数的f(d)的功能是，只有当d = 1的时候，output1，否则都output 0（如果觉得难以理解可以Google mu[1] - mu[20]然后选一些小整数把他们的divisors（注意包括1和他本身）的mu值加起来尝试一下）
     * ![Screen Shot 2020-04-12 at 7.00.01 PM.png](resources/FB90B724D82BD8E36F87A1704CA84EE1.png)（图片来自朱昶宇的GitHub）
     * 为什么是这样呢？简单说一下intuition
       * 首先对于integer X做质因数分解，得到它的prime factor set {P1 ~ Pn}（multiplicity大于1的prime factor的mu值为0，不影响后面的计算，我们只需要列出distinct的即可）
