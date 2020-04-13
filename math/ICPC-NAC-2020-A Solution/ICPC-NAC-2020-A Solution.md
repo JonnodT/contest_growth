@@ -29,8 +29,8 @@
   * 莫比乌斯反演本质上是数论容斥，他的容斥系数是一个特殊的函数 — 莫比乌斯函数
     * 莫比乌斯函数 （mobius function）mu(n)，n是整数，定义如下
       * 如果n的某个质因子multiplicity \> 1，比如 n = 12 = 2 \* 2 \* 3，则mu[n] = 0
-      * 如果n的质因子全部本质不相同，且总共有奇数个，mu[n] = -1
-      * 如果n的质因子全部本质不相同，且总共有偶数个，mu[n] = 1
+      * 如果n的质因子全部本质不相同(multiplicity 全部 = 1)，且总共有奇数个，比如 n = 30 = 2 * 3 * 5 则mu[n] = -1
+      * 如果n的质因子全部本质不相同，且总共有偶数个，比如 n = 15 = 3 * 5, 则mu[n] = 1
       * mu[1] = 1
     * 计算莫比乌斯函数可以用线性筛法precalculate，类似于埃式筛，这里就暂时不展开描述，感兴趣可以参考朱昶宇的linearSieve模版（<https://github.com/KCFindstr/icpc-nac-2020-solutions/blob/master/A.cpp>）总之我们可以用线性复杂度计算 mu[i]
     * 莫比乌斯函数有一个很好的性质，即如果现在有一个不等于一的整数X, 我们枚举X的所有divisors，把这些divisors的mu值相加，一定得到0。但如果X = 1，那么由于mu[1] = 1，和为1。利用这个特殊的性质，这种“相加所有divisor的莫比乌斯函数值“得到的函数可以给我们提供一个indicator function，即下图第二行最后一个sigma，这个函数的f(d)的功能是，只有当d = 1的时候，output1，否则都output 0
