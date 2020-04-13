@@ -2,7 +2,7 @@
 * 本文参考了朱昶宇题解 <https://github.com/KCFindstr/icpc-nac-2020-solutions>
   * （如果熟悉莫比乌斯反演而且一眼就能看到题目的本质建议直接看朱昶宇题解，否则建议先看完以下内容）
 
-* ![Screen Shot 2020-04-12 at 5.54.24 PM.png](resources/B43E99C1D7F6087472B64C682089B742.png)
+![Screen Shot 2020-04-12 at 5.54.24 PM.png](resources/B43E99C1D7F6087472B64C682089B742.png)
 
 * 这道题有两个难点
   * 1\. 把题目进行转化。
