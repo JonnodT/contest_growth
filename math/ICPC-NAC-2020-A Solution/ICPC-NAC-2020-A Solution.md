@@ -1,6 +1,6 @@
 * 题目是2020 North America Championship Problem A <https://open.kattis.com/problems/anothercoinweighingpuzzle>
-* 本文参考了朱昶宇题解 <https://github.com/KCFindstr/icpc-nac-2020-solutions>
-  * （如果熟悉莫比乌斯反演而且能自己理解题目的本质建议直接看朱昶宇题解和代码，否则建议先读完以下内容）
+* 本文参考了KCFindstr的题解 <https://github.com/KCFindstr/icpc-nac-2020-solutions>
+  * （如果熟悉莫比乌斯反演而且能自己理解题目的本质建议直接看KCFindstr的题解和代码，否则建议先读完以下内容）
 
 ![Screen Shot 2020-04-12 at 5.54.24 PM.png](resources/B43E99C1D7F6087472B64C682089B742.png)
 
@@ -20,7 +20,7 @@
       * 这样有一个问题，就是如果两个decision tuple之间是倍数关系，比如称两次（m = 2），每包一个硬币(k = 1)，那么decison tuple （1，1）和（2，2）是一样的，如果把这两个tuple assign 给bag A和bag B, 而假币包又是这两包中的一包，那么我们是无法根据示数确定是哪一包的，因为这两包的message都是：第二次称重是第一次称重的一倍。要明确，***我们区分message的依据是重量之间的相对关系，而不是绝对数量！！！因为题目中明确说并不知道假币比真币具体重多少***。这一点是转化题目的关键，要仔细思考明白。
     * 明确了这一点，这道题目就转化成了，求每个数范围-k ~ k，且所有数gcd = 1的 distinct m-tuple的个数
     * formally
-      * ![Screen Shot 2020-04-12 at 6.54.04 PM.png](resources/C9EE4C125D17789BA887EF02E4B68042.png)（图片来自朱昶宇的GitHub）
+      * ![Screen Shot 2020-04-12 at 6.54.04 PM.png](resources/C9EE4C125D17789BA887EF02E4B68042.png)（图片来自KCFindstr的GitHub）
     * 至此，我们完成了题目的转化。
     * 如何求解？
       * 既然我们要求m-tuple，那么要不要枚举所有m个数，对于每个m-tuple如果gcd = 1，count+1。显然不行，复杂度是（1e(6\*1e6))。
@@ -32,9 +32,9 @@
       * 如果n的质因子全部本质不相同(multiplicity 全部 = 1)，且总共有奇数个，比如 n = 30 = 2 * 3 * 5 则mu[n] = -1
       * 如果n的质因子全部本质不相同，且总共有偶数个，比如 n = 15 = 3 * 5, 则mu[n] = 1
       * mu[1] = 1
-    * 计算莫比乌斯函数可以用线性筛法precalculate，类似于埃式筛，这里就暂时不展开描述，感兴趣可以参考朱昶宇的linearSieve模版（<https://github.com/KCFindstr/icpc-nac-2020-solutions/blob/master/A.cpp>）总之我们可以用线性复杂度提前算好所有 mu[i]
+    * 计算莫比乌斯函数可以用线性筛法precalculate，类似于埃式筛，这里就暂时不展开描述，感兴趣可以参考KCFindstr的linearSieve模版（<https://github.com/KCFindstr/icpc-nac-2020-solutions/blob/master/A.cpp>）总之我们可以用线性复杂度提前算好所有 mu[i]
     * 莫比乌斯函数有一个很好的性质，即如果现在有一个不等于一的整数X, 我们枚举X的所有divisors，把这些divisors的mu值相加，一定得到0。但如果X = 1，那么由于mu[1] = 1，和为1。利用这个特殊的性质，这种“相加所有divisor的莫比乌斯函数值“得到的函数可以给我们提供一个indicator function，即下图第二行最后一个sigma，这个函数的f(d)的功能是，只有当d = 1的时候，output1，否则都output 0（如果觉得难以理解可以Google mu[1] - mu[20]然后选一些小整数把他们的divisors（注意包括1和他本身）的mu值加起来尝试一下）
-    * ![Screen Shot 2020-04-12 at 7.00.01 PM.png](resources/FB90B724D82BD8E36F87A1704CA84EE1.png)（图片来自朱昶宇的GitHub）
+    * ![Screen Shot 2020-04-12 at 7.00.01 PM.png](resources/FB90B724D82BD8E36F87A1704CA84EE1.png)（图片来自KCFindstr的GitHub）
     * 为什么是这样呢？简单说一下intuition
       * 首先对于integer X做质因数分解，得到它的prime factor set {P1 ~ Pn}（multiplicity大于1的prime factor的mu值为0，不影响后面的计算，我们只需要列出distinct的即可）
       * 我们知道从这n个prime factor中任意选1个，2个，3个，。。或n个，质数相乘得到的数都整除X，或者说都是X的divisors
@@ -44,8 +44,8 @@
         * 比如当X有5个质因子的时候，这6类的莫比乌斯函数值加和为： 1 -5 10 -10 5 -1，和为0.
       * 由于杨辉三角（二项式系数）除了第一行以外，都可以通过assign 正，负，正，负。。。这种正负交替的符号得到sum为0的数列，所以只要X不是1，这个函数得到的值都是0.
   * 所以这个公式为什么成立就显而易见了，因为我们构造了一个indicator function
-    * ![Screen Shot 2020-04-12 at 7.00.01 PM.png](resources/FB90B724D82BD8E36F87A1704CA84EE1.png)（图片来自朱昶宇的GitHub）
-  * 但是这样runtime依然不行，甚至还多了一个sum？？那怎么办呢？我们发现，其实可以先枚举所有divisors（即1-k每个数）再枚举tuple中的m个数，而不是像现在这样先枚举m个数，再枚举他们gcd的divisors。即：把最里面一个sigma提出来，这样由于divisor的特殊性质，后面所有sigma都省去了！![Screen Shot 2020-04-12 at 7.15.42 PM.png](resources/FECC559EEB3D18A4375418350D2A7654.png)（图片来自朱昶宇的GitHub）
+    * ![Screen Shot 2020-04-12 at 7.00.01 PM.png](resources/FB90B724D82BD8E36F87A1704CA84EE1.png)（图片来自KCFindstr的GitHub）
+  * 但是这样runtime依然不行，甚至还多了一个sum？？那怎么办呢？我们发现，其实可以先枚举所有divisors（即1-k每个数）再枚举tuple中的m个数，而不是像现在这样先枚举m个数，再枚举他们gcd的divisors。即：把最里面一个sigma提出来，这样由于divisor的特殊性质，后面所有sigma都省去了！![Screen Shot 2020-04-12 at 7.15.42 PM.png](resources/FECC559EEB3D18A4375418350D2A7654.png)（图片来自KCFindstr的GitHub）
     * 为什么省去了呢？因为我们知道从-k到k，能被d整除的数只有 2\*(k/d)+1这么多（除法基本性质，最后的+1代表0也算能整除的），所以根本不需要枚举！快速幂直接logm求解，因此，我们就可以在klogm时间内求解出这个函数值！也就是我们想要的答案。这道题也就解出来了。
     * 这一步变化的思想就好像如果要给矩阵求和，本来一行一行求现在改成一列一列求，但是一列一列求的时候发现可以利用这个矩阵的特殊性质导致column sum直接O(1)出来了，只要把所有solumn sum加起来就可以了。当然这只是比较浅显的理解，这背后有更深层的道理。
 * black magic背后更深入的原因
@@ -54,7 +54,7 @@
     * ![Screen Shot 2020-04-12 at 7.23.17 PM.png](resources/6985F1E55575DC59F8895AC16BB11251.png)
     * 容斥原理抽象层面上的思想就是找一些不明确相交关系的集合的并集的方法，一开始先全count，再减去上一步多count的，再加上上一步多减的..再减上一步去多加的..再加上。。。。。以此类推最终求得不重复count也不漏count的结果
   * 其实这道题把最后一项拿到前面来本质上就是把问题转换成数论容斥，我们看最终公式的这一部分，（那个+1只是加上m个0组成的tuple的情况所以不要去管它暂时）
-  * ![Screen Shot 2020-04-12 at 7.25.17 PM.png](resources/9740EC56D5178767066176902E48F6F0.png)（图片来自朱昶宇的GitHub）
+  * ![Screen Shot 2020-04-12 at 7.25.17 PM.png](resources/9740EC56D5178767066176902E48F6F0.png)（图片来自KCFindstr的GitHub）
     * 我们枚举m个数gcd的divisor的时候，首先d=1会把所有可能的情况都考虑，= 1\*（2\*k+1）^ m -1，but这显然不是我们想要的结果，因为我们多count了很多东西，一个数divisor有1的话，也有可能有其他质数，比如 2 = 1 * 2。所以再减去所有由1和**一个**质数相乘得到的数（就是所有质数）对应的所有可能性，但是这一步又多减了，因为一个质数也可以作为两个质数相乘组成的数的divisor，因此需要再加上所有由两个质数组成的divisor的所有可能性，比如10 = 1 * 2 * 5（算上1就总共3个元素了: prime1,prime2,1）,再减去三个质数组成的divisors 。。。再加上。。。再减去。。。
     * 其实在上面的最终公式中，我们枚举的divisor对应的就是集合版容斥定理中的交集项，在集合版本的容斥定理中，符号是由交集项中包含的集合个数的奇偶决定的，在数论版容斥中，divisor的符号是由当前divisor本质不同的质因子的个数的奇偶性决定的（也正是莫比乌斯函数计算的东西！！），这二者在抽象层面上其实是一回事。
     
